@@ -536,6 +536,7 @@ namespace Aurora.Devices.CoolerMaster
         private long lastUpdateTime = 0;
 
         //Keyboard stuff
+        private bool colorchanged = false;
         private CoolerMasterSDK.COLOR_MATRIX color_matrix = new CoolerMasterSDK.COLOR_MATRIX() { KeyColor = new CoolerMasterSDK.KEY_COLOR[CoolerMasterSDK.MAX_LED_ROW, CoolerMasterSDK.MAX_LED_COLUMN] };
         //private Color peripheral_Color = Color.Black;
 
@@ -692,6 +693,9 @@ namespace Aurora.Devices.CoolerMaster
                 key_color = new CoolerMasterSDK.KEY_COLOR(color.R, color.G, color.B);
             }
 
+            CoolerMasterSDK.KEY_COLOR current = color_matrix.KeyColor[key[0], key[1]];
+            if ((current.r != key_color.r) || (current.g != key_color.g) || (current.b != key_color.b))
+                colorchanged = true;
             color_matrix.KeyColor[key[0], key[1]] = key_color;
         }
 
@@ -703,7 +707,9 @@ namespace Aurora.Devices.CoolerMaster
             if (!CoolerMasterSDK.Keyboards.Contains(CurrentDevice))
                 return;
 
-            CoolerMasterSDK.SetAllLedColor(color_matrix);
+            if(colorchanged)
+                CoolerMasterSDK.SetAllLedColor(color_matrix);
+            colorchanged = false;
             //previous_key_colors = key_colors;
             keyboard_updated = true;
         }
