@@ -544,6 +544,7 @@ namespace Aurora.Devices.CoolerMaster
         //private CoolerMasterSDK.KEY_COLOR[,] previous_key_colors = new CoolerMasterSDK.KEY_COLOR[CoolerMasterSDK.MAX_LED_ROW, CoolerMasterSDK.MAX_LED_COLUMN];
         //private Color previous_peripheral_Color = Color.Black;
 
+        private CoolerMasterSDK.KEY_CALLBACK callback;
 
         public bool Initialize()
         {
@@ -598,6 +599,11 @@ namespace Aurora.Devices.CoolerMaster
             }
         }
 
+        private void KeyCallback(int row, int column, bool pressed)
+		{
+            //Global.logger.Info($"CoolerMaster keycallback {row} {column} {pressed}");
+            Trace.WriteLine($"CoolerMaster keycallback {row} {column} {pressed}");
+		}
         protected bool SwitchToDevice(CoolerMasterSDK.DEVICE_INDEX device)
         {
             if (CurrentDevice == device)
@@ -605,6 +611,9 @@ namespace Aurora.Devices.CoolerMaster
 
             bool init = false;
             CoolerMasterSDK.SetControlDevice(device);
+            callback = KeyCallback;
+            CoolerMasterSDK.SetKeyCallBack(callback);
+            CoolerMasterSDK.EnableKeyInterrupt(true);
             CurrentDevice = device;
             if (CoolerMasterSDK.IsDevicePlug() && CoolerMasterSDK.EnableLedControl(true))
             {
@@ -621,9 +630,11 @@ namespace Aurora.Devices.CoolerMaster
                 foreach (var device in InitializedDevices)
                 {
                     CoolerMasterSDK.EnableLedControl(false, device);
+                    CoolerMasterSDK.EnableKeyInterrupt(false, device);
                 }
 
                 CoolerMasterSDK.EnableLedControl(false);
+                CoolerMasterSDK.EnableKeyInterrupt(false);
                 CoolerMasterSDK.SetControlDevice(CoolerMasterSDK.DEVICE_INDEX.None);
                 InitializedDevices.Clear();
 
