@@ -99,6 +99,7 @@ namespace Aurora
 
         private void DeviceOnKeyboardInput(object sender, KeyboardInputEventArgs e)
         {
+            Debug.WriteLine($"RawInput {e.Key} {e.MakeCode} {e.ScanCodeFlags} {e.GetDeviceKey()}", "InputEvents unprocessed");
             if ((int)e.Key == 255)
             {
                 // discard "fake keys" which are part of an escaped sequence
@@ -108,7 +109,7 @@ namespace Aurora
             {
                 KeyUtils.CorrectRawInputData(e);
 
-                //Debug.WriteLine($"RawInput {e.Key} {e.MakeCode} {e.ScanCodeFlags} {e.GetDeviceKey()}", "InputEvents");
+                Debug.WriteLine($"RawInput {e.Key} {e.MakeCode} {e.ScanCodeFlags} {e.GetDeviceKey()}", "InputEvents processed");
 
                 if (e.ScanCodeFlags.HasFlag(ScanCodeFlags.Break))
                 {
@@ -127,6 +128,11 @@ namespace Aurora
                 Global.logger.Error("Exception while handling keyboard input. Error: " + exc.ToString());
             }
         }
+
+        public void SendExtraKey(KeyboardInputEventArgs e)
+		{
+            DeviceOnKeyboardInput(null, e);
+		}
 
         /// <summary>
         /// Handles a SharpDX MouseInput event and fires the relevant InputEvents event (Scroll, MouseButtonDown or MouseButtonUp).

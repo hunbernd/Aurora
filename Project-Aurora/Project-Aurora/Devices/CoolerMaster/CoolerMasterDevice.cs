@@ -1,6 +1,7 @@
 ﻿using Aurora.Settings;
 using Aurora.Utils;
 using CoolerMaster;
+using SharpDX.RawInput;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -607,7 +608,13 @@ namespace Aurora.Devices.CoolerMaster
 
             //TODO replace it with key names
             if (row == 5 && column == 12)
+            {
                 fnpressed = pressed;
+				KeyboardInputEventArgs args = new KeyboardInputEventArgs();
+                args.Key = System.Windows.Forms.Keys.Apps;
+                args.ScanCodeFlags = pressed ? ScanCodeFlags.Make : ScanCodeFlags.Break;
+                Global.InputEvents.SendExtraKey(args);
+            }
 
             if(fnpressed && row == 3 && column == 6)
 			{

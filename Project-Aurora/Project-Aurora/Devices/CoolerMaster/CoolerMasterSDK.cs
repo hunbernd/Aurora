@@ -68,7 +68,7 @@ namespace CoolerMaster
             DEV_MK750 = 10,
             [Description("CK372")]
             DEV_CK372 = 11,
-            [Description("CK552")]
+            [Description("CK550 CK552")]
             DEV_CK550_552 = 12,
             [Description("CK551")]
             DEV_CK551 = 13,
