@@ -545,6 +545,7 @@ namespace Aurora.Devices.CoolerMaster
         //private Color previous_peripheral_Color = Color.Black;
 
         private CoolerMasterSDK.KEY_CALLBACK callback;
+        private bool fnpressed = false;
 
         public bool Initialize()
         {
@@ -603,6 +604,17 @@ namespace Aurora.Devices.CoolerMaster
 		{
             //Global.logger.Info($"CoolerMaster keycallback {row} {column} {pressed}");
             Trace.WriteLine($"CoolerMaster keycallback {row} {column} {pressed}");
+
+            //TODO replace it with key names
+            if (row == 5 && column == 12)
+                fnpressed = pressed;
+
+            if(fnpressed && row == 3 && column == 6)
+			{
+                Trace.WriteLine("Hibernating!!!");
+                fnpressed = false;
+                Process.Start("shutdown", @"/h");
+			}
 		}
         protected bool SwitchToDevice(CoolerMasterSDK.DEVICE_INDEX device)
         {
@@ -718,7 +730,7 @@ namespace Aurora.Devices.CoolerMaster
             if (!CoolerMasterSDK.Keyboards.Contains(CurrentDevice))
                 return;
 
-            if(colorchanged)
+            if(colorchanged || forced)
                 CoolerMasterSDK.SetAllLedColor(color_matrix);
             colorchanged = false;
             //previous_key_colors = key_colors;
