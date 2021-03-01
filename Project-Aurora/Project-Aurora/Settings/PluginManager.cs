@@ -264,7 +264,9 @@ namespace Aurora.Settings
                                 new Keybind( new Keys[] { Keys.LWin, Keys.Left }),
                                 new Keybind( new Keys[] { Keys.LWin, Keys.Right }),
                                 new Keybind( new Keys[] { Keys.LWin, Keys.Home }),
-                                new Keybind( new Keys[] { Keys.LWin, Keys.D })
+                                new Keybind( new Keys[] { Keys.LWin, Keys.D }),
+                                new Keybind( new Keys[] { Keys.LWin, Keys.LShiftKey, Keys.Left }),
+                                new Keybind( new Keys[] { Keys.LWin, Keys.LShiftKey, Keys.Right })
                             }
                         },
                         new ShortcutGroup("Alt"){
@@ -278,6 +280,19 @@ namespace Aurora.Settings
                                 new Keybind( new Keys[] { Keys.LMenu, Keys.PageUp }),
                                 new Keybind( new Keys[] { Keys.LMenu, Keys.PageDown }),
                                 new Keybind( new Keys[] { Keys.LMenu, Keys.Tab })
+                            }
+                        },
+                        new ShortcutGroup("Saját"){
+                            Shortcuts = new Keybind[]
+                            {
+                                new Keybind( new Keys[] { Keys.Apps, Keys.Insert }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.Home }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.PageUp }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.Delete }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.End }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.PageDown }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.F9 }),
+                                new Keybind( new Keys[] { Keys.Apps, Keys.H })
                             }
                         }
                     }
